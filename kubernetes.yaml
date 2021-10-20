@@ -1,0 +1,44 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: meet
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: meet
+  name: meet
+  namespace: meet
+spec:
+  ports:
+  - name: http
+    port: 8080
+  selector:
+    app: meet
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: meet
+  name: meet
+  namespace: meet
+spec:
+  selector:
+    matchLabels:
+      app: meet
+  template:
+    metadata:
+      labels:
+        app: meet
+    spec:
+      containers:
+      - image: julia/redirect:latest
+        imagePullPolicy: Always
+        name: meet
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
