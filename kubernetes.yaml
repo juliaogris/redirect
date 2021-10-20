@@ -42,3 +42,30 @@ spec:
         - containerPort: 8080
           name: http
           protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+    traefik.ingress.kubernetes.io/router.entrypoints: https
+  labels:
+    app: meet
+  name: meet
+  namespace: meet
+spec:
+  rules:
+  - host: meet.jul.run
+    http:
+      paths:
+      - backend:
+          service:
+            name: meet
+            port:
+              name: http
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - meet.jul.run
+    secretName: meet-https-cert
