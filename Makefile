@@ -73,7 +73,9 @@ release: ## Tag and release binaries for different OS on GitHub release
 	git push origin $(VERSION)
 	goreleaser release --rm-dist
 	[ -z "$(DOCKER_PASSWORD)" ] || $(DOCKER_LOGIN)
-	docker buildx create –-use -- docker buildx build --push --build-arg=VERSION=$(VERSION) --tag julia/redirect:$(VERSION) --tag julia/redirect:latest --platform linux/amd64,linux/arm/v7 .
+	docker buildx create –-use node-amd64
+	docker buildx create --append node-arm/v7
+	docker buildx build --push --build-arg=VERSION=$(VERSION) --tag julia/redirect:$(VERSION) --tag julia/redirect:latest --platform linux/amd64,linux/arm/v7 .
 
 .PHONY: release
 
