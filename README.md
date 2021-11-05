@@ -11,3 +11,5 @@ Shenanigans to make it run on local k3s cluster:
 - Dockerfile
 - K8s manifests
 - GitHub Action CI/CD pushing to Dockerhub
+
+Add lego
